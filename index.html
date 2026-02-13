@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갑자TV 시참 신청</title>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+        }
+        h1 { color: #ffcc00; margin-bottom: 20px; }
+        input {
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            border-radius: 10px; border: 1px solid #555;
+            background: #222; color: white; font-size: 1.1rem;
+            box-sizing: border-box; text-align: center;
+        }
+        button {
+            width: 100%; padding: 15px;
+            border-radius: 10px; border: none;
+            background: #ffcc00; color: #000;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer;
+        }
+        button:disabled { background: #555; color: #888; }
+        .footer { margin-top: 20px; font-size: 0.8rem; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📺 갑자TV<br>운빨존많겜 시참 신청</h1>
+        <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px;">
+            닉네임을 입력하고 신청 버튼을 누르세요.<br>
+            (자동으로 대기 명단에 등록됩니다)
+        </p>
+        
+        <input type="text" id="nickname" placeholder="게임 닉네임 입력">
+        <button id="submitBtn" onclick="sendData()">🚀 참여 신청하기</button>
+        
+        <div class="footer">신청 후 방송 화면을 확인해주세요!</div>
+    </div>
+
+    <script>
+        // ▼▼▼ 아까 복사한 '웹 앱 URL'을 여기에 넣으세요 ▼▼▼
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyyJuoBA7A-mzqmBHdV52HBYB21K__bWa_MMHPUDI1rMn7bpzO_uAJbAeBS8XPdhGOb/exec"; 
+
+        function sendData() {
+            const input = document.getElementById('nickname');
+            const btn = document.getElementById('submitBtn');
+            const name = input.value.trim();
+
+            if (!name) return alert("닉네임을 입력해주세요!");
+
+            btn.disabled = true;
+            btn.innerText = "전송 중...";
+
+            // GAS로 데이터 전송 (no-cors 모드 사용)
+            fetch(GAS_URL, {
+                method: "POST",
+                mode: "no-cors", // 중요: 시청자 브라우저 보안 에러 방지
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nickname: name })
+            })
+            .then(() => {
+                alert("✅ 신청 완료!\n방송 화면 대기 명단을 확인하세요.");
+                input.value = "";
+                btn.disabled = false;
+                btn.innerText = "🚀 참여 신청하기";
+            })
+            .catch(err => {
+                alert("오류가 발생했습니다 다시 시도해주세요.");
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
