@@ -12,70 +12,49 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh; /* height 대신 min-height 사용 (모바일 대응) */
+            /* [수정됨] 화면 중앙(center) 대신 상단(flex-start) 정렬 및 여백 추가 */
+            justify-content: flex-start; 
+            padding-top: 15vh; /* 화면의 15%만큼 위에서 띄움 (키보드 대응) */
+            
+            min-height: 100vh;
             margin: 0;
             text-align: center;
             box-sizing: border-box;
         }
         
         .container {
-            /* [수정됨] 모바일에서 테두리가 잘리지 않도록 너비 조정 */
             width: 85%; 
-            max-width: 380px; /* PC에서도 너무 크지 않게 */
-            
-            padding: 30px 20px; /* 내부 여백 조절 */
+            max-width: 380px; 
+            padding: 30px 20px; 
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
-            border: 3px solid #ffcc00; /* 테두리 두께 약간 강화 */
+            border: 3px solid #ffcc00; 
             box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
-            box-sizing: border-box; /* 테두리 포함 크기 계산 (중요) */
+            box-sizing: border-box; 
         }
 
-        /* [신규] 로고 이미지 스타일 */
         .title-logo {
-            width: 80px; /* 이미지 크기 조절 */
+            width: 80px; 
             height: auto;
             margin-bottom: 10px;
-            filter: drop-shadow(0 0 5px rgba(255,204,0,0.5)); /* 은은한 발광 효과 */
+            filter: drop-shadow(0 0 5px rgba(255,204,0,0.5)); 
         }
 
-        h1 { 
-            color: #ffcc00; 
-            margin: 0 0 20px 0; 
-            font-size: 1.5rem; 
-            line-height: 1.4;
-        }
-
-        p {
-            color: #aaa;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
+        h1 { color: #ffcc00; margin: 0 0 20px 0; font-size: 1.5rem; line-height: 1.4; }
+        p { color: #aaa; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5; }
         
         input {
-            width: 100%; 
-            padding: 15px; 
-            margin-bottom: 15px;
-            border-radius: 10px; 
-            border: 1px solid #555;
-            background: #222; 
-            color: white; 
-            font-size: 1.1rem;
-            box-sizing: border-box; /* 입력창 튀어나감 방지 */
-            text-align: center;
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            border-radius: 10px; border: 1px solid #555;
+            background: #222; color: white; font-size: 1.1rem;
+            box-sizing: border-box; text-align: center;
         }
         
         button {
-            width: 100%; 
-            padding: 15px;
-            border-radius: 10px; 
-            border: none;
-            background: #ffcc00; 
-            color: #000;
-            font-size: 1.2rem; 
-            font-weight: 900; 
+            width: 100%; padding: 15px;
+            border-radius: 10px; border: none;
+            background: #ffcc00; color: #000;
+            font-size: 1.2rem; font-weight: 900; 
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(255, 204, 0, 0.3);
             transition: transform 0.1s;
@@ -94,18 +73,18 @@
         
         <p>
             아래에 닉네임을 입력하고<br>
-            <span style="color:#ffcc00; font-weight:bold;">신청 버튼</span>을 눌러주세요!
+            <span style="color:#ffcc00; font-weight:bold;">신청하기</span>를 눌러주세요!
         </p>
         
-        <input type="text" id="nickname" placeholder="게임 닉네임 입력 (띄어쓰기 없이)">
-        <button id="submitBtn" onclick="sendData()">🚀 참여 신청하기</button>
+        <input type="text" id="nickname" placeholder="게임 닉네임 입력">
+        <button id="submitBtn" onclick="sendData()">🚀 신청하기</button>
         
         <div class="footer">신청 후 방송 화면 대기 명단을 확인하세요!</div>
     </div>
 
     <script>
         // ▼▼▼ 여기에 본인의 [구글 Apps Script 배포 URL]을 다시 넣어주세요! ▼▼▼
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyyJuoBA7A-mzqmBHdV52HBYB21K__bWa_MMHPUDI1rMn7bpzO_uAJbAeBS8XPdhGOb/exec"; 
+        const GAS_URL = "여기에_앱스_스크립트_주소를_붙여넣으세요"; 
 
         function sendData() {
             const input = document.getElementById('nickname');
@@ -117,7 +96,6 @@
             btn.disabled = true;
             btn.innerText = "전송 중...";
 
-            // GAS로 데이터 전송
             fetch(GAS_URL, {
                 method: "POST",
                 mode: "no-cors",
@@ -128,12 +106,12 @@
                 alert("✅ 신청 완료!\n방송 화면 대기 명단을 확인하세요.");
                 input.value = "";
                 btn.disabled = false;
-                btn.innerText = "🚀 참여 신청하기";
+                btn.innerText = "🚀 신청하기";
             })
             .catch(err => {
                 alert("오류가 발생했습니다 다시 시도해주세요.");
                 btn.disabled = false;
-                btn.innerText = "🚀 참여 신청하기";
+                btn.innerText = "🚀 신청하기";
             });
         }
     </script>
